@@ -9,7 +9,7 @@ typedef unsigned char byte;
 class ImageBuffer;
 
 class ImageManager {
-private:
+protected:
     std::fstream file_;
     std::string filename_;
     byte *rawData_;
@@ -32,9 +32,8 @@ public:
     int fileSize() const;
     void setFilename(const std::string &filename);
     int openFile();
-    virtual int readContents();
-    int closeFile();
-    virtual int getImage(ImageBuffer &buffer) = 0;
+    int readContents();
+    virtual ImageBuffer *getImage() = 0;
     virtual int writeBuffer(ImageBuffer &buffer) = 0;
 };
 

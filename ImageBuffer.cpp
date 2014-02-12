@@ -3,9 +3,17 @@
 ImageBuffer::ImageBuffer(unsigned width, unsigned height, ImageType type, ImageAlign align, bool topDown) :
     width_(width), height_(height), type_(type), alignment_(align), topDownOrder_(topDown)
 {
+	int size;
+	
     bitsPerPixel_ = type_ * 8;
-    rowSize_ = width_ + (alignment_ - (width_ % alignment_) % alignment_);
-    data_ = new byte[rowSize_ * height_];
+    rowSize_ = width_ + ((alignment_ - (width_ % alignment_)) % alignment_);
+    size = rowSize_ * height_;
+    if (type == IMAGE_RGB) {
+    	size *= 3;
+    } else if (type == IMAGE_RGBA) {
+    	size *= 4;
+    }
+    data_ = new byte[size];
 }
 
 ImageBuffer::~ImageBuffer()

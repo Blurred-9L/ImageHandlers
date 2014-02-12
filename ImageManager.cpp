@@ -1,9 +1,6 @@
 #include "ImageManager.h"
 #include "ImageBuffer.h"
 
-#include <fstream>
-#include <string>
-
 ImageManager::ImageManager() : filename_(), rawData_(0), fileSize_(0)
 {
 }
@@ -79,18 +76,11 @@ int ImageManager::readContents()
         fileSize_ = file_.tellg();
         file_.seekg(0, file_.beg);
         rawData_ = new byte[fileSize_];
+        file_.read(reinterpret_cast<char*>(rawData_), fileSize_);
+        file_.close();
     } else {
         retValue = IMG_NOT_OPEN;
     }
     
     return retValue;
-}
-
-int ImageManager::closeFile()
-{
-    if (file_.is_open()) {
-        file_.close();
-    }
-    
-    return IMG_NO_ERROR;
 }
